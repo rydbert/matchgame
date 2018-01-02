@@ -91,6 +91,9 @@ MatchGame.flipCard = function($card, $game) {
   flippedCards.push($card);
 
   if (flippedCards.length === 2) {
+    console.log(flippedCards[0].data('value'));
+    console.log(flippedCards[1].data('value'));
+    console.log(flippedCards[0].data('value') === flippedCards[1].data('value'))
     if (flippedCards[0].data('value') === flippedCards[1].data('value')) {
       var matchCss = {
         backgroundColor: 'rgb(153, 153, 153)',

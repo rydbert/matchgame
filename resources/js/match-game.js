@@ -15,15 +15,27 @@ $(document).ready(function() {
 
 MatchGame.generateCardValues = function () {
   var cards = [];
-  for (i=1; i<9; i++) {
-    cards.push(1)
-    cards.push(1)
+
+  for (var i=1; i<9; i++) {
+    cards.push(i)
+    cards.push(i)
   }
+
   var randomCards = []
+
+  while (cards.length > 0) {
+    var randomIndex = Math.floor(Math.random() * cards.length);
+    /* Line below ruined everything without [0] */
+    randomCards.push(cards.splice(randomIndex,1)[0])
+  }
+
+/*
   while (cards.length > 0) {
     var randomIndex = Math.floor(Math.random() * cards.length);
     randomCards.push(cards.splice(randomIndex,1))
   }
+*/
+
   return randomCards;
 };
 
@@ -54,6 +66,8 @@ MatchGame.renderCards = function(cardValues, $game) {
       'flipped' : false
     });
 
+/* Feel like this handler should be added within the card
+before being appended to $game, but solution does it outside. */
     $card.click(function() {
       MatchGame.flipCard($(this), $game);
     });
@@ -76,17 +90,11 @@ MatchGame.flipCard = function($card, $game) {
       .data('flipped', true);
 
 
-/*  $game.data('flippedCards').push($card)
-Still not sure flippedCards needs to be declared but okay.
-*/
+  $game.data('flippedCards').push($card)
   var flippedCards = $game.data('flippedCards');
-  flippedCards.push($card);
 
   if (flippedCards.length === 2) {
     if (flippedCards[0].data('value') === flippedCards[1].data('value')) {
-      /* Apparently the code never gets inside this if */
-      /* Changed colors to see if inside */
-      $('.card').css('background-color', 'red');
       flippedCards[0].css({
         'background-color' : 'rgb(153,153,153)',
         'color' : 'rgb(204,204,204)'
